@@ -8,7 +8,7 @@ data class CustomerModel(
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     var id: Int? = null,
     @Column
-    var nome: String,
+    var name: String,
     @Column
     var email: String
 ) {
