@@ -27,6 +27,7 @@ dependencies {
 	implementation ("org.flywaydb:flyway-core:9.22.3")
 	implementation("org.flywaydb:flyway-mysql:9.22.3")
 	implementation("org.springframework.boot:spring-boot-starter-validation:3.2.0")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
 
 	runtimeOnly("mysql:mysql-connector-java:8.0.28")
 
