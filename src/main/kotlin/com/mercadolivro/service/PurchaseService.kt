@@ -1,7 +1,12 @@
 package com.mercadolivro.service
 
+import com.mercadolivro.enum.BookStatus
+import com.mercadolivro.enum.Errors
 import com.mercadolivro.events.PurchaseEvent
+import com.mercadolivro.exception.BadRequestException
+import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.PurchaseModel
+import com.mercadolivro.repository.BookRepository
 import com.mercadolivro.repository.PurchaseRepository
 import jakarta.transaction.Transactional
 import org.springframework.context.ApplicationEventPublisher
@@ -14,6 +19,12 @@ class PurchaseService(
 ) {
     @Transactional
     fun create(purchaseModel: PurchaseModel) {
+        val inactiveBooks = purchaseModel.books.filter { it.status != BookStatus.ATIVO }
+
+        if(inactiveBooks.isNotEmpty()) {
+            throw BadRequestException(Errors.ML103.message, Errors.ML103.code)
+        }
+
         purchaseRepository.save(purchaseModel)
 
         println("Disparando evento de compra")

@@ -51,7 +51,12 @@ class BookService(
     }
 
     fun findAllByIds(bookIds: Set<Int>): List<BookModel> {
-        return bookRepository.findAllById(bookIds).toList()
+        val books = bookRepository.findAllById(bookIds).toList()
+        return if (books.size == bookIds.size) {
+            books
+        } else {
+            throw NotFoundException(Errors.ML202.message, Errors.ML202.code)
+        }
     }
 
     fun purchase(books: MutableList<BookModel>) {
