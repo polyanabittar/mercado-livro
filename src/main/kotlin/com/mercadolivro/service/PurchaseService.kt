@@ -1,14 +1,11 @@
 package com.mercadolivro.service
 
-import com.mercadolivro.controller.response.SoldBooksResponse
 import com.mercadolivro.enum.BookStatus
 import com.mercadolivro.enum.Errors
 import com.mercadolivro.events.PurchaseEvent
 import com.mercadolivro.exception.BadRequestException
-import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.BookModel
 import com.mercadolivro.model.PurchaseModel
-import com.mercadolivro.repository.BookRepository
 import com.mercadolivro.repository.PurchaseRepository
 import jakarta.transaction.Transactional
 import org.springframework.context.ApplicationEventPublisher
@@ -36,7 +33,7 @@ class PurchaseService(
         purchaseRepository.save(purchaseModel)
     }
 
-    fun getSoldBooks(id: Int): List<BookModel> {
+    fun getPurchasedBooks(id: Int): List<BookModel> {
         val books = purchaseRepository.findAllByCustomerId(id)
         return books.filter { it.status == BookStatus.VENDIDO }
     }

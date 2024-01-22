@@ -2,9 +2,8 @@ package com.mercadolivro.controller
 
 import com.mercadolivro.controller.mapper.PurchaseMapper
 import com.mercadolivro.controller.request.PostPurchaseRequest
-import com.mercadolivro.controller.response.SoldBooksResponse
+import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toResponse
-import com.mercadolivro.model.BookModel
 import com.mercadolivro.service.PurchaseService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -29,7 +28,7 @@ class PurchaseController(
     }
 
     @GetMapping("/{id}")
-    fun getSoldBooksbyCustomer(@PathVariable id: Int): SoldBooksResponse {
-        return purchaseService.getSoldBooks(id).toResponse()
+    fun getPurchasedBooksbyCustomer(@PathVariable id: Int): List<BookResponse> {
+        return purchaseService.getPurchasedBooks(id).toResponse()
     }
 }

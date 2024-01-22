@@ -6,7 +6,6 @@ import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.controller.response.CustomerResponse
-import com.mercadolivro.controller.response.SoldBooksResponse
 import com.mercadolivro.enum.BookStatus
 import com.mercadolivro.enum.CustomerStatus
 import com.mercadolivro.model.BookModel
@@ -66,14 +65,13 @@ fun BookModel.toResponse(): BookResponse {
     )
 }
 
-fun List<BookModel>.toResponse(): SoldBooksResponse {
-    return SoldBooksResponse(
-        this.map {
-            BookResponse(
-                id = it.id,
-                name = it.name,
-                price = it.price
-            )
-        }
-    )
+fun List<BookModel>.toResponse(): List<BookResponse> {
+    return this.map {
+        BookResponse(
+            id = it.id,
+            name = it.name,
+            price = it.price,
+            customer = it.customer
+        )
+    }
 }
