@@ -9,4 +9,7 @@ interface PurchaseRepository: CrudRepository<PurchaseModel, Int> {
 
     @Query("select p.books from purchase p where p.customer.id = ?1")
     fun findAllByCustomerId(id: Int): List<BookModel>
+
+    @Query("select p.books from purchase p inner join p.books b where b.customer.id = ?1")
+    fun findAllByBookCustomerId(id: Int): List<BookModel>
 }

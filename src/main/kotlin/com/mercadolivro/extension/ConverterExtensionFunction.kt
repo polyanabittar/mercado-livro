@@ -70,8 +70,7 @@ fun List<BookModel>.toResponse(): List<BookResponse> {
         BookResponse(
             id = it.id,
             name = it.name,
-            price = it.price,
-            customer = it.customer
+            price = it.price
         )
     }
 }

@@ -37,4 +37,9 @@ class PurchaseService(
         val books = purchaseRepository.findAllByCustomerId(id)
         return books.filter { it.status == BookStatus.VENDIDO }
     }
+
+    fun getSoldBooks(id: Int): List<BookModel> {
+        val books = purchaseRepository.findAllByBookCustomerId(id)
+        return books.filter { it.status == BookStatus.VENDIDO }
+    }
 }

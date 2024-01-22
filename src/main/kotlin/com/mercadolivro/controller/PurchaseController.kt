@@ -27,8 +27,13 @@ class PurchaseController(
         purchaseService.create(purchaseMapper.toModel(request))
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/purchased/{id}")
     fun getPurchasedBooksbyCustomer(@PathVariable id: Int): List<BookResponse> {
         return purchaseService.getPurchasedBooks(id).toResponse()
+    }
+
+    @GetMapping("/sold/{id}")
+    fun getSoldBooksbyCustomer(@PathVariable id: Int): List<BookResponse> {
+        return purchaseService.getSoldBooks(id).toResponse()
     }
 }
