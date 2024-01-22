@@ -26,9 +26,7 @@ class PurchaseService(
         if(inactiveBooks.isNotEmpty()) {
             throw BadRequestException(Errors.ML103.message, Errors.ML103.code)
         }
-
-        purchaseRepository.save(purchaseModel)
-
+        
         println("Disparando evento de compra")
         applicationEventPublisher.publishEvent(PurchaseEvent(this, purchaseModel))
         println("Finalizando processamento")
