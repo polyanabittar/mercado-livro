@@ -15,7 +15,7 @@ fun PostCustomerRequest.toCustomerModel(): CustomerModel {
     return CustomerModel(
         name = this.name,
         email = this.email,
-        status = CustomerStatus.ATIVO,
+        status = CustomerStatus.ACTIVE,
         password = this.password
     )
 }

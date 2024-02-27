@@ -2,7 +2,7 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enum.CustomerStatus
 import com.mercadolivro.enum.Errors
-import com.mercadolivro.enum.Profile
+import com.mercadolivro.enum.Roles
 import com.mercadolivro.exception.NotFoundException
 import com.mercadolivro.model.CustomerModel
 import com.mercadolivro.repository.CustomerRepository
@@ -17,8 +17,9 @@ class CustomerService(
     private val bookService: BookService,
     private val bCrypt: BCryptPasswordEncoder
 ) {
-    fun getAll(nome: String?, pageable: Pageable): Page<CustomerModel> {
-        nome?.let{
+
+    fun getAll(name: String?, pageable: Pageable): Page<CustomerModel> {
+        name?.let {
             return customerRepository.findByNameContaining(it, pageable)
         }
         return customerRepository.findAll(pageable)
@@ -26,7 +27,7 @@ class CustomerService(
 
     fun createCustomer(customer: CustomerModel) {
         val customerCopy = customer.copy(
-            roles = setOf(Profile.CUSTOMER),
+            roles = setOf(Roles.CUSTOMER),
             password = bCrypt.encode(customer.password)
         )
         customerRepository.save(customerCopy)
@@ -48,7 +49,8 @@ class CustomerService(
     fun deleteCustomer(id: Int) {
         val customer = findById(id)
         bookService.deleteByCustomer(customer)
-        customer.status = CustomerStatus.INATIVO
+
+        customer.status = CustomerStatus.INACTIVE
         customerRepository.save(customer)
     }
 

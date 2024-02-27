@@ -5,6 +5,7 @@ import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.extension.toResponse
+import com.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
 import org.springframework.data.domain.Page
@@ -19,6 +20,7 @@ class CustomerController(
     private val customerService: CustomerService
 ) {
     @GetMapping
+    @UserCanOnlyAccessTheirOwnResource
     fun getAll(
         @PageableDefault(page = 0, size = 10) pageable: Pageable,
         @RequestParam nome: String?
@@ -33,11 +35,13 @@ class CustomerController(
     }
 
     @GetMapping("/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     fun getCustomer(@PathVariable id: Int): CustomerResponse {
         return customerService.findById(id).toResponse()
     }
 
     @PutMapping("/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun updateCustomer(@PathVariable id: Int,
                        @Valid @RequestBody customer: PutCustomerRequest) {
