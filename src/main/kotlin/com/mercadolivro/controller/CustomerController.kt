@@ -5,6 +5,7 @@ import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.extension.toResponse
+import com.mercadolivro.security.OnlyAdminCanAccess
 import com.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
@@ -29,6 +30,7 @@ class CustomerController(
     }
 
     @PostMapping
+    @OnlyAdminCanAccess
     @ResponseStatus(HttpStatus.CREATED)
     fun createCustomer(@Valid @RequestBody customer: PostCustomerRequest) {
         customerService.createCustomer(customer.toCustomerModel())
@@ -50,6 +52,7 @@ class CustomerController(
     }
 
     @DeleteMapping("/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun deleteCustomer(@PathVariable id: Int) {
         customerService.deleteCustomer(id)

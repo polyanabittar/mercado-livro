@@ -4,6 +4,8 @@ import com.mercadolivro.controller.mapper.PurchaseMapper
 import com.mercadolivro.controller.request.PostPurchaseRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toResponse
+import com.mercadolivro.security.OnlyAdminCanAccess
+import com.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.service.PurchaseService
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
@@ -22,12 +24,14 @@ class PurchaseController(
 ) {
 
     @PostMapping
+    @OnlyAdminCanAccess
     @ResponseStatus(HttpStatus.CREATED)
     fun purchase(@RequestBody request: PostPurchaseRequest) {
         purchaseService.create(purchaseMapper.toModel(request))
     }
 
     @GetMapping("/purchased/{id}")
+    @UserCanOnlyAccessTheirOwnResource
     fun getPurchasedBooksbyCustomer(@PathVariable id: Int): List<BookResponse> {
         return purchaseService.getPurchasedBooks(id).toResponse()
     }

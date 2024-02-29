@@ -5,6 +5,7 @@ import com.mercadolivro.controller.request.PutBookRequest
 import com.mercadolivro.controller.response.BookResponse
 import com.mercadolivro.extension.toBookModel
 import com.mercadolivro.extension.toResponse
+import com.mercadolivro.security.UserCanOnlyAccessTheirOwnResource
 import com.mercadolivro.service.BookService
 import com.mercadolivro.service.CustomerService
 import jakarta.validation.Valid
@@ -39,16 +40,16 @@ class BookController(
     fun findById(@PathVariable id: Int): BookResponse =
         bookService.findById(id).toResponse()
 
-    @DeleteMapping("{id}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable id: Int) {
-        bookService.delete(id)
-    }
-
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     fun update(@PathVariable id: Int, @RequestBody book: PutBookRequest) {
         val bookSaved = bookService.findById(id)
         bookService.update(book.toBookModel(bookSaved))
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    fun delete(@PathVariable id: Int) {
+        bookService.delete(id)
     }
 }
