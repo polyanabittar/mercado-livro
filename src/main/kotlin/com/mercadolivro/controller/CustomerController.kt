@@ -3,6 +3,7 @@ package com.mercadolivro.controller
 import com.mercadolivro.controller.request.PostCustomerRequest
 import com.mercadolivro.controller.request.PutCustomerRequest
 import com.mercadolivro.controller.response.CustomerResponse
+import com.mercadolivro.controller.response.PageResponse
 import com.mercadolivro.extension.toCustomerModel
 import com.mercadolivro.extension.toResponse
 import com.mercadolivro.security.OnlyAdminCanAccess
@@ -25,8 +26,10 @@ class CustomerController(
     fun getAll(
         @PageableDefault(page = 0, size = 10) pageable: Pageable,
         @RequestParam nome: String?
-    ): Page<CustomerResponse> {
-        return customerService.getAll(nome, pageable).map { it.toResponse() }
+    ): PageResponse<CustomerResponse> {
+        return customerService.getAll(nome, pageable)
+            .map { it.toResponse() }
+            .toResponse()
     }
 
     @PostMapping
