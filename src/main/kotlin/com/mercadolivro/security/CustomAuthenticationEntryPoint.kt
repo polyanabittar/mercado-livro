@@ -18,7 +18,7 @@ class CustomAuthenticationEntryPoint : AuthenticationEntryPoint {
         response: HttpServletResponse,
         authException: AuthenticationException?
     ) {
-        response.contentType = "application/joson"
+        response.contentType = "application/json"
         response.status = HttpServletResponse.SC_UNAUTHORIZED
         val errorResponse =
             ErrorResponse(HttpStatus.UNAUTHORIZED.value(), Errors.ML000.message, Errors.ML000.code, null)
