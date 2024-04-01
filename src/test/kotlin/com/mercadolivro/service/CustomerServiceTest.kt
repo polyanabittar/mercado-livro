@@ -47,6 +47,24 @@ class CustomerServiceTest {
         verify(exactly = 0) { customerRepository.findByNameContaining(any(), any()) }
     }
 
+    @Test
+    fun `should return customers when name is informed`() {
+        val name = UUID.randomUUID().toString()
+        val fakeCustomers = PageImpl(listOf(buildCustomers(), buildCustomers()))
+        val pageRequest: PageRequest = PageRequest.of(0, 10)
+
+        every {
+            customerRepository.findByNameContaining(name, any(PageRequest::class))
+        } returns fakeCustomers
+
+        val customers = customerService.getAll(name, pageRequest)
+
+        assertEquals(fakeCustomers, customers)
+
+        verify(exactly = 0) { customerRepository.findAll(any(PageRequest::class)) }
+        verify(exactly = 1) { customerRepository.findByNameContaining(name, any()) }
+    }
+
     private fun buildCustomers(
         id: Int? = null,
         name: String = "customer name",
