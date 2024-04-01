@@ -17,7 +17,6 @@ class CustomerService(
     private val bookService: BookService,
     private val bCrypt: BCryptPasswordEncoder
 ) {
-
     fun getAll(name: String?, pageable: Pageable): Page<CustomerModel> {
         name?.let {
             return customerRepository.findByNameContaining(it, pageable)
