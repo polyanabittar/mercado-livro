@@ -2,7 +2,7 @@ package com.mercadolivro.service
 
 import com.mercadolivro.enum.CustomerStatus
 import com.mercadolivro.exception.NotFoundException
-import com.mercadolivro.helper.buildCustomers
+import com.mercadolivro.helper.buildCustomer
 import com.mercadolivro.repository.CustomerRepository
 import io.mockk.every
 import io.mockk.impl.annotations.InjectMockKs
@@ -40,7 +40,7 @@ class CustomerServiceTest {
 
     @Test
     fun `should return all customers`() {
-        val fakeCustomers = PageImpl(listOf(buildCustomers(), buildCustomers()))
+        val fakeCustomers = PageImpl(listOf(buildCustomer(), buildCustomer()))
         val pageRequest: PageRequest = PageRequest.of(0, 10)
 
         every { customerRepository.findAll(any(PageRequest::class)) } returns fakeCustomers
@@ -56,7 +56,7 @@ class CustomerServiceTest {
     @Test
     fun `should return customers when name is informed`() {
         val name = UUID.randomUUID().toString()
-        val fakeCustomers = PageImpl(listOf(buildCustomers(), buildCustomers()))
+        val fakeCustomers = PageImpl(listOf(buildCustomer(), buildCustomer()))
         val pageRequest: PageRequest = PageRequest.of(0, 10)
 
         every {
@@ -75,7 +75,7 @@ class CustomerServiceTest {
     fun `should create customer and encrypt password`() {
         val initialPassword = Math.random().toString()
         val fakePassword = UUID.randomUUID().toString()
-        val fakeCustomer = buildCustomers(password = initialPassword)
+        val fakeCustomer = buildCustomer(password = initialPassword)
         val fakeCustomerEncrypted = fakeCustomer.copy(password = fakePassword)
 
         every { bCrypt.encode(initialPassword) } returns fakePassword
@@ -90,7 +90,7 @@ class CustomerServiceTest {
     @Test
     fun `should find customer by id`() {
         val id = Random().nextInt()
-        val fakeCustomer = buildCustomers(id = id)
+        val fakeCustomer = buildCustomer(id = id)
 
         every { customerRepository.findById(id) } returns Optional.of(fakeCustomer)
 
@@ -119,7 +119,7 @@ class CustomerServiceTest {
     @Test
     fun `should update customer`() {
         val id = Random().nextInt()
-        val fakeCustomer = buildCustomers(id = id)
+        val fakeCustomer = buildCustomer(id = id)
 
         every { customerRepository.existsById(id) } returns true
         every { customerRepository.save(fakeCustomer) } returns fakeCustomer
@@ -133,7 +133,7 @@ class CustomerServiceTest {
     @Test
     fun `should throw not found exception when update customer`() {
         val id = Random().nextInt()
-        val fakeCustomer = buildCustomers(id = id)
+        val fakeCustomer = buildCustomer(id = id)
 
         every { customerRepository.existsById(id) } returns false
 
@@ -151,7 +151,7 @@ class CustomerServiceTest {
     @Test
     fun `should delete customer by id`() {
         val id = Random().nextInt()
-        val fakeCustomer = buildCustomers(id = id)
+        val fakeCustomer = buildCustomer(id = id)
         val expectedCustomer = fakeCustomer.copy(status = CustomerStatus.INACTIVE)
 
         every { customerService.findById(id) } returns fakeCustomer

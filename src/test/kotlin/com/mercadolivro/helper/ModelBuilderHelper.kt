@@ -9,7 +9,7 @@ import com.mercadolivro.model.PurchaseModel
 import java.math.BigDecimal
 import java.util.UUID
 
-fun buildCustomers(
+fun buildCustomer(
     id: Int? = null,
     name: String = "customer name",
     email: String = "${UUID.randomUUID()}@email.com",
@@ -26,7 +26,7 @@ fun buildCustomers(
 
 fun buildPurchase(
     id: Int? = null,
-    customer: CustomerModel = buildCustomers(),
+    customer: CustomerModel = buildCustomer(),
     books: MutableList<BookModel> = mutableListOf(),
     nfe: String? = UUID.randomUUID().toString(),
     price: BigDecimal = BigDecimal.TEN
@@ -42,7 +42,7 @@ fun buildBook(
     id: Int? = null,
     name: String = "name",
     price: BigDecimal = BigDecimal.TEN,
-    customer: CustomerModel = buildCustomers(),
+    customer: CustomerModel = buildCustomer(),
     status: BookStatus = BookStatus.ATIVO
 ) = BookModel(
     id = id,

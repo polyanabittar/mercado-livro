@@ -4,7 +4,7 @@ import com.mercadolivro.enum.BookStatus
 import com.mercadolivro.events.PurchaseEvent
 import com.mercadolivro.exception.BadRequestException
 import com.mercadolivro.helper.buildBook
-import com.mercadolivro.helper.buildCustomers
+import com.mercadolivro.helper.buildCustomer
 import com.mercadolivro.helper.buildPurchase
 import com.mercadolivro.repository.PurchaseRepository
 import io.mockk.*
@@ -74,7 +74,7 @@ class PurchaseServiceTest {
     @Test
     fun `should get purchased books by customer`() {
         val id = Random.nextInt()
-        val customer = buildCustomers(id = id)
+        val customer = buildCustomer(id = id)
         val books = mutableListOf(buildBook(customer = customer, status = BookStatus.VENDIDO))
 
         every { purchaseRepository.findAllByCustomerId(id) } returns books
@@ -89,7 +89,7 @@ class PurchaseServiceTest {
     @Test
     fun `should get sold books by customer`() {
         val id = Random.nextInt()
-        val customer = buildCustomers(id = id)
+        val customer = buildCustomer(id = id)
         val books = mutableListOf(buildBook(customer = customer, status = BookStatus.VENDIDO))
 
         every { purchaseRepository.findAllByBookCustomerId(id) } returns books
